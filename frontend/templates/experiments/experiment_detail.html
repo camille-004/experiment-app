@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Experiment Details</h4>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ experiment.name }}</h5>
+            <p class="card-text">{{ experiment.description }}</p>
+            <p class="card-text">
+                <strong>Created by:</strong> 
+                <a href="{% url 'user_profile' experiment.user.username %}">{{ experiment.user.username }}</a>
+            </p>
+        </div>
+        <div class="card-footer bg-light">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-1">
+                        <strong>Status:</strong> 
+                        <span class="badge {% if experiment.status == 'completed' %}badge-success{% else %}badge-warning{% endif %}">
+                            {{ experiment.status }}
+                        </span>
+                    </p>
+                    <p class="mb-1">
+                        <strong>Created at:</strong> 
+                        <span class="text-muted">{{ experiment.created_at }}</span>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1">
+                        <strong>Last updated:</strong> 
+                        <span class="text-muted">{{ experiment.updated_at }}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

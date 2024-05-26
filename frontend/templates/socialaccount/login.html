@@ -1,0 +1,26 @@
+{% extends "base.html" %} 
+
+{% block title %} Google Login {% endblock %} 
+
+{% block content %} 
+{% load static %}
+
+<div class="auth-container">
+  <h2>Sign In Via Google</h2>
+  <p>You are about to sign in using a third-party account from Google.</p>
+  <form
+    method="post"
+    action="
+            {% url 'google_login' %}
+           "
+  >
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-danger btn-lg">
+      <i class="fa fa-google mr-2"></i>
+      Continue with Google
+    </button>
+  </form>
+</div>
+
+{% endblock %}

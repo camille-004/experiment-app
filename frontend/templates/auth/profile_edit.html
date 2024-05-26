@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load form_tags %}
+{% load custom_filters %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Edit Profile</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" action="{% url 'profile_edit' %}">
+                        {% csrf_token %}
+                        <div class="text-center mb-4">
+                            {% if userprofile_form.instance.profile_picture %}
+                                <img src="{{ userprofile_form.instance.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="rounded-circle" width="150" height="150">
+                            {% else %}
+                                <img src="https://via.placeholder.com/150" alt="{{ user.username }}'s profile picture" class="rounded-circle" width="150" height="150">
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="profile_picture">Profile Picture</label>
+                            {{ picture_form.profile_picture|add_class:"form-control-file"|exclude_file_input_text }}
+                            {% if picture_form.profile_picture.help_text %}
+                                <small class="form-text text-muted">{{ picture_form.profile_picture.help_text }}</small>
+                            {% endif %}
+                            {% for error in picture_form.profile_picture.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% for field in profile_form %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field|add_class:"form-control" }}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        {% for field in userprofile_form %}
+                            {% if field.name != "profile_picture" and field.name != "location" %}
+                                <div class="form-group">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field|add_class:"form-control" }}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="form-group mt-4">
+                            <label for="location">Location</label>
+                            {{ userprofile_form.location|add_class:"form-control" }}
+                            <div id="city-suggestions" class="list-group"></div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/cities.js' %}"></script>
+{% endblock %}

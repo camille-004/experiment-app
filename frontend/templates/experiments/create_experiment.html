@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block title %} Create New Experiment {% endblock %}
+{% block content %} {% load form_tags %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5>Create New Experiment</h5>
+          </div>
+          <div class="card-body">
+            <form
+              method="post"
+              action="
+
+
+
+
+                      {% url 'create_experiment' %}
+
+
+
+
+                     "
+            >
+              {% csrf_token %} {% for field in form %}
+
+                <div class="form-group">
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+                  {{ field|add_class:"form-control" }} {% if field.help_text %}
+
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+
+                  {% endif %}
+                </div>
+
+              {% endfor %}
+
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">
+                  Create Experiment
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

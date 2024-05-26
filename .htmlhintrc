@@ -1,0 +1,8 @@
+{
+    "attr-lowercase": true,
+    "attr-value-double-quotes": true,
+    "doctype-first": false,
+    "tag-pair": false,
+    "tag-self-close": false,
+    "tagname-lowercase": true
+}

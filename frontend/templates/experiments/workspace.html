@@ -1,0 +1,44 @@
+{% extends "base.html" %} 
+
+{% block title %} Workspace {% endblock %} 
+
+{% block content %}
+
+<div class="container-fluit mt-4">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="list-group">
+        <h5 class="list-group item list-group-item-action active">
+          Experiments
+        </h5>
+
+        {% for experiment in experiments %}
+
+          <a
+            href="
+
+
+
+
+                  {% url 'experiment_detail' experiment.id %}
+
+
+
+
+                 "
+            class="list-group-item list-group-item-action"
+          >
+            {{ experiment.name }}
+          </a>
+
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-9">
+      <h2>Welcome to the Workspace</h2>
+      <p>Select an experiment from the sidebar.</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

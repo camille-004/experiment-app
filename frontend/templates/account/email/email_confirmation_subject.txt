@@ -1,0 +1,1 @@
+{% load account %}{% blocktrans %}Please Confirm Your Email Address{% endblocktrans %}

@@ -1,0 +1,58 @@
+{% load form_tags %}
+<div class="card">
+  <div class="card-header">
+    <h5>Account Settings</h5>
+  </div>
+  <div class="card-body">
+    <p>Account settings.</p>
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button
+              class="btn btn-link"
+              data-toggle="collapse"
+              data-target="#collapseOne"
+              aria-expanded="false"
+              aria-controls="collapseOne"
+            >
+              Change Password
+            </button>
+          </h5>
+        </div>
+        <div
+          id="collapseOne"
+          class="collapse"
+          aria-labelledby="headingOne"
+          data-parent="#accordion"
+        >
+          <div class="card-body">
+            <div id="passwordChangeMessage" class="alert d-none"></div>
+            <form
+              id="passwordChangeForm"
+              method="post"
+              action="{% url 'change_password' %}"
+            >
+              {% csrf_token %}
+              {% for field in password_change_form %}
+                <div class="form-group">
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {{ field|add_class:"form-control" }}
+                  {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                  {% endif %}
+                  {% for error in field.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% endfor %}
+              <button type="submit" class="btn btn-primary mt-2">
+                Change Password
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

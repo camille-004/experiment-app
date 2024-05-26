@@ -1,0 +1,34 @@
+{
+  "name": "speech_synth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "format-html": "prettier --write 'frontend/**/*.html' && ./scripts/format_html.sh",
+    "format-css": "prettier --write 'frontend/static/css/**/*.css'",
+    "format-js": "prettier --write 'frontend/static/js/**/*.js'",
+    "format": "npm run format-html && npm run format-css && npm run format-js",
+    "lint-html": "htmlhint 'frontend/**/*.html'",
+    "lint-css": "stylelint 'frontend/static/css/**/*.css'",
+    "lint-js": "eslint 'frontend/static/js/**/*.js'",
+    "lint": "npm run lint-html && npm run lint-css && npm run lint-js",
+    "check": "npm run lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.3.0",
+    "eslint-plugin-vue": "^9.26.0",
+    "htmlhint": "^1.1.4",
+    "prettier": "^3.2.5",
+    "prettier-plugin-django": "^0.5.17",
+    "stylelint": "^16.6.0",
+    "stylelint-config-recommended": "^14.0.0",
+    "stylelint-config-recommended-scss": "^14.0.0",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-order": "^6.0.4",
+    "stylelint-scss": "^6.3.0"
+  }
+}

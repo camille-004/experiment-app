@@ -1,0 +1,144 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a
+      class="navbar-brand"
+      href="
+            {% url 'home' %}
+           "
+    >
+      Home
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        {% if user.is_authenticated %}
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="
+                    {% url 'workspace' %}
+                   "
+          >
+            Workspace
+            <i class="fa fa-briefcase ml-2"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="
+                    {% url 'my_experiments' %}
+                   "
+          >
+            My Experiments
+            <i class="fa fa-flask ml-2"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="
+                    {% url 'create_experiment' %}
+                   "
+          >
+            Create New Experiment
+            <i class="fa fa-plus-circle ml-2"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle d-flex align-items-center"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <img
+              src="
+                    {% if user.authentication_userprofile.profile_picture %}
+                      {{ user.authentication_userprofile.profile_picture.url }}
+                    {% else %}
+                      {% static 'images/default-profile-picture.png' %}
+                    {% endif %}
+                  "
+              alt="{{ user.username }}"
+              class="rounded-circle"
+              width="30"
+              height="30"
+            />
+            <span class="ml-2">{{ user.username }}</span>
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            aria-labelledby="navbarDropdown"
+          >
+            <a
+              class="dropdown-item"
+              href="
+                      {% url 'profile' %}
+                     "
+            >
+              Profile
+              <i class="fa fa-user-circle-o ml-2"></i>
+            </a>
+            <a
+              class="dropdown-item"
+              href="
+                      {% url 'settings' %}
+                     "
+            >
+              Settings
+              <i class="fa fa-cog ml-2"></i>
+            </a>
+            <div class="dropdown-divider"></div>
+            <form
+              id="logout-form"
+              action="
+                        {% url 'logout' %}
+                       "
+              method="post"
+              class="d-inline"
+            >
+              {% csrf_token %}
+
+              <button type="submit" class="dropdown-item">
+                Logout
+                <i class="fa fa-sign-out ml-2"></i>
+              </button>
+            </form>
+          </div>
+        </li>
+
+        {% else %}
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="
+                    {% url 'login' %}
+                   "
+          >
+            Login
+            <i class="fa fa-sign-in ml-2"></i>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

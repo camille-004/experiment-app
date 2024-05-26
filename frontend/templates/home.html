@@ -1,0 +1,45 @@
+{% extends "base.html" %} 
+
+{% block title %} Home {% endblock %} 
+
+{% block content %}
+
+<div class="container mt-4">
+  <h2>Welcome to the Home Page</h2>
+  <p>Here are the most recent experiments.</p>
+  <h3>Recent Experiments</h3>
+  <div class="row">
+    {% for experiment in recent_experiments %}
+
+      <div class="col-md-3 mb-4">
+        <a
+          href="
+
+
+
+
+                {% url 'experiment_detail' experiment.id %}
+
+
+
+
+               "
+          class="card-link"
+        >
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="mb-1">{{ experiment.name }}</h5>
+              <p class="mb-1">{{ experiment.description }}</p>
+              <small>Created by {{ experiment.user.username }}</small>
+              <br />
+              <small>Status {{ experiment.status }}</small>
+            </div>
+          </div>
+        </a>
+      </div>
+
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
