@@ -1,7 +1,7 @@
 from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AnonymousUser, User
 from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.http import HttpResponse
@@ -20,9 +20,9 @@ class ExperimentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
-        user = self.request.user
+        user: User | AnonymousUser = self.request.user
         if isinstance(user, User):
-            return self.queryset.filter(user=self.request.user)
+            return self.queryset.filter(user=user)
         return self.queryset.none()
 
 
@@ -32,9 +32,9 @@ class ExperimentRunViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
-        user = self.request.user
+        user: User | AnonymousUser = self.request.user
         if isinstance(user, User):
-            return self.queryset.filter(experiment__user=self.request.user)
+            return self.queryset.filter(experiment__user=user)
         return self.queryset.none()
 
 
@@ -53,7 +53,7 @@ class MyExperimentsView(ListView):
     context_object_name = "experiments"
 
     def get_queryset(self) -> QuerySet:
-        user = self.request.user
+        user: User | AnonymousUser = self.request.user
         if isinstance(user, User):
             return Experiment.objects.filter(user=user).order_by("-created_at")
         return Experiment.objects.none()
@@ -86,7 +86,11 @@ class WorkspaceView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["experiments"] = Experiment.objects.filter(
-            user=self.request.user
-        ).order_by("-created_at")
+        user: User | AnonymousUser = self.request.user
+        if isinstance(user, User):
+            context["experiments"] = Experiment.objects.filter(
+                user=user
+            ).order_by("-created_at")
+        else:
+            context["experiments"] = Experiment.objects.none()
         return context

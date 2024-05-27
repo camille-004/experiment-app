@@ -1,4 +1,5 @@
 BACKEND_DIR := backend
+APPS_DIR := $(BACKEND_DIR)/apps
 FRONTEND_DIR := frontend
 STUBS_DIR := stubs
 TEST_DIR := tests
@@ -33,7 +34,7 @@ format-backend:
 format-frontend:
 	$(NPM) run format
 
-lint: lint-python lint-frontend
+lint: lint-backend lint-frontend
 
 lint-backend:
 	PYTHONPATH=$(BACKEND_DIR) $(FLAKE8) $(FLAKE8_OPTIONS) $(BACKEND_DIR) $(STUBS_DIR) $(TEST_DIR)
@@ -44,10 +45,18 @@ lint-frontend:
 type-check:
 	PYTHONPATH=$(BACKEND_DIR) $(MYPY) $(MYPY_OPTIONS) $(BACKEND_DIR) $(STUBS_DIR) $(TEST_DIR)
 
-check: format lint type-check
+check-backend: format-backend lint-backend type-check
+
+check-frontend: format-frontend lint-frontend
+
+check: check-backend check-frontend
 
 migrate:
-	PYTHONPATH=$(BACKEND_DIR) $(POETRY) run python $(BACKEND_DIR)/manage.py makemigrations
+	@for app in $$(ls $(APPS_DIR)); do \
+		if [ "$$app" != "__pycache__" ] && [ -d "$(APPS_DIR)/$$app" ]; then \
+			PYTHONPATH=$(BACKEND_DIR) $(POETRY) run python $(BACKEND_DIR)/manage.py makemigrations $$app; \
+		fi \
+	done
 	PYTHONPATH=$(BACKEND_DIR) $(POETRY) run python $(BACKEND_DIR)/manage.py migrate
 
 run: migrate

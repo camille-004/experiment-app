@@ -163,3 +163,9 @@ pylint.log
 # Build directories
 build/
 dist/
+
+# Media
+backend/media/
+
+# Migrations
+**/migrations/

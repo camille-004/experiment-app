@@ -6,10 +6,10 @@ env = environ.Env(DEBUG=(bool, False))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(BASE_DIR.parent / ".env")
+env.read_env(str(BASE_DIR.parent / ".env"))
 
-SECRET_KEY = env("SECRET_KEY")
-DEBUG = env("DEBUG")
+SECRET_KEY = env.str("SECRET_KEY")
+DEBUG = env.bool("DEBUG")
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 INSTALLED_APPS = [
@@ -68,7 +68,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
-    "default": env.db(),
+    "default": env.db("DATABASE_URL"),
 }
 
 
@@ -103,7 +103,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [Path(BASE_DIR, "../frontend/static")]
+STATICFILES_DIRS = [BASE_DIR / ".." / "frontend" / "static"]
+STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -121,9 +122,9 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
-            "client_id": env("SOCIALACCOUNT_GOOGLE_CLIENT_ID"),
-            "secret": env("SOCIALACCOUNT_GOOGLE_SECRET"),
-            "key": env("SOCIALACCOUNT_GOOGLE_KEY"),
+            "client_id": env.str("SOCIALACCOUNT_GOOGLE_CLIENT_ID"),
+            "secret": env.str("SOCIALACCOUNT_GOOGLE_SECRET"),
+            "key": env.str("SOCIALACCOUNT_GOOGLE_KEY"),
         },
         "SCOPE": ["email", "profile"],
         "AUTH_PARAMS": {
@@ -145,16 +146,16 @@ LOGIN_URL = "/auth/login/"
 LOGIN_REDIRECT_URL = "/"
 
 # Email backend configuration
-EMAIL_BACKEND = env("EMAIL_BACKEND")
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_PORT = env("EMAIL_PORT", cast=int)
-EMAIL_USE_TLS = env("EMAIL_USE_TLS", cast=bool)
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+EMAIL_BACKEND = env.str("EMAIL_BACKEND")
+EMAIL_HOST = env.str("EMAIL_HOST")
+EMAIL_PORT = env.int("EMAIL_PORT")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Geonames info
-GEONAMES_USERNAME = env("GEONAMES_USERNAME")
+GEONAMES_USERNAME = env.str("GEONAMES_USERNAME")
