@@ -165,7 +165,7 @@ build/
 dist/
 
 # Media
-backend/media/
+**/media/
 
 # Migrations
 **/migrations/
