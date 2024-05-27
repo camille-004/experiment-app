@@ -14,9 +14,9 @@ MYPY := $(POETRY) run mypy
 NPM := npm
 
 # Options
-BLACK_OPTIONS := --line-length 79
-ISORT_OPTIONS := --trailing-comma --multi-line=3
-FLAKE8_OPTIONS :=
+BLACK_OPTIONS := --line-length 79 --exclude "migrations"
+ISORT_OPTIONS := --trailing-comma --multi-line=3 --skip "migrations"
+FLAKE8_OPTIONS := --exclude "migrations"
 MYPY_OPTIONS := --config-file mypy.ini
 
 # Phony targets
